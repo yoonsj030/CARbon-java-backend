@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String realId) throws UsernameNotFoundException {           // 로그인 시점 호출
         User user = userRepository.findByRealId(realId);
