@@ -29,6 +29,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeRequests()          // 요청에 대한 접근 제어
                 .antMatchers("/api/**").authenticated()          // 인증된 사용자만 접근 가능
+                .antMatchers("/", "**").permitAll()
                 .anyRequest().permitAll();          // 나머지 모든 요청에 대해서는 접근 허용
 
         /**
@@ -63,7 +64,7 @@ public class SecurityConfig {
 
         try{
             authFilter.setFilterProcessesUrl("/loginProc");
-            authFilter.setUsernameParameter("realId");
+            authFilter.setUsernameParameter("username");
             authFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
             authFilter.setPasswordParameter("password");
         } catch (Exception e){

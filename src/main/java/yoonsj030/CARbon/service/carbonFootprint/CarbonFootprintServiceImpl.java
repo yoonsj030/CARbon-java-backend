@@ -10,7 +10,6 @@ import yoonsj030.CARbon.repository.carbonFootprint.CarbonFootprintRepository;
 import yoonsj030.CARbon.repository.user.UserRepository;
 import yoonsj030.CARbon.vo.carbonFootprint.CarbonFootprintResponseVO;
 
-
 @AllArgsConstructor
 @Slf4j
 @Service
