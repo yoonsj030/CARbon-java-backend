@@ -10,7 +10,6 @@ import yoonsj030.CARbon.repository.carbonFootprint.CarbonFootprintRepository;
 import yoonsj030.CARbon.repository.user.UserRepository;
 import yoonsj030.CARbon.vo.carbonFootprint.CarbonFootprintResponseVO;
 
-import java.util.List;
 
 @AllArgsConstructor
 @Slf4j
@@ -57,6 +56,7 @@ public class CarbonFootprintServiceImpl implements CarbonFootprintService {
 
     @Override
     public CarbonFootprintResponseVO getCarbonFootprint(Long userId, int year) {
+
         return null;
     }
 }
