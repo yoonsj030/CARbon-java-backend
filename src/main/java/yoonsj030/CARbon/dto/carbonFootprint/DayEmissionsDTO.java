@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,5 +12,13 @@ import java.util.List;
 public class DayEmissionsDTO {
     private Integer day;
 
-    private List<Double> emissionsList;
+    private Double emissions;
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setEmissions(double emissions) {
+        this.emissions = emissions;
+    }
 }

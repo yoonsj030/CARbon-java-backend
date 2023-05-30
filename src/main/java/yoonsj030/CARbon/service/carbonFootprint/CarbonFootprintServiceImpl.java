@@ -4,11 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import yoonsj030.CARbon.dto.carbonFootprint.CreateCarbonFootprintDTO;
+import yoonsj030.CARbon.dto.carbonFootprint.DayEmissionsDTO;
+import yoonsj030.CARbon.dto.carbonFootprint.MonthEmissionsDTO;
 import yoonsj030.CARbon.entity.carbonFootprint.CarbonFootprint;
 import yoonsj030.CARbon.entity.user.User;
 import yoonsj030.CARbon.repository.carbonFootprint.CarbonFootprintRepository;
 import yoonsj030.CARbon.repository.user.UserRepository;
 import yoonsj030.CARbon.vo.carbonFootprint.CarbonFootprintResponseVO;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Slf4j
@@ -54,8 +61,39 @@ public class CarbonFootprintServiceImpl implements CarbonFootprintService {
     }
 
     @Override
-    public CarbonFootprintResponseVO getCarbonFootprint(Long userId, int year) {
+    public List<CarbonFootprintResponseVO> getCarbonFootprint(Long userId, int year) {
+        List<Object[]> yearlyEmissionsByDate = carbonFootprintRepository.getYearlyEmissionsByUser(userId, year);
 
-        return null;
+        Map<Integer, CarbonFootprintResponseVO> carbonFootprintMap = new HashMap<>();
+
+        for (Object[] data : yearlyEmissionsByDate) {
+            Integer month = (Integer) data[1];
+            Integer day = (Integer) data[2];
+            Double emissions = (Double) data[3];
+
+            // 연도별 객체 생성 또는 기존 객체 가져오기
+            CarbonFootprintResponseVO carbonFootprintResponseVO = carbonFootprintMap.getOrDefault(year, new CarbonFootprintResponseVO());
+            carbonFootprintResponseVO.setYear(year);
+
+            // 월별 객체 생성 또는 기존 객체 가져오기
+            MonthEmissionsDTO monthObject = new MonthEmissionsDTO();
+            monthObject.setMonth(month);
+
+            // 일별 객체 생성 또는 기존 객체 가져오기
+            DayEmissionsDTO dayObject = new DayEmissionsDTO();
+            dayObject.setDay(day);
+            dayObject.setEmissions(emissions);
+
+            // 일별 객체를 월별 객체에 추가
+            monthObject.getDayList().add(dayObject);
+
+            // 월별 객체를 연도별 객체에 추가
+            carbonFootprintResponseVO.getMonthList().add(monthObject);
+
+            // 연도별 객체를 맵에 저장
+            carbonFootprintMap.put(year, carbonFootprintResponseVO);
+        }
+
+        return new ArrayList<>(carbonFootprintMap.values());
     }
 }

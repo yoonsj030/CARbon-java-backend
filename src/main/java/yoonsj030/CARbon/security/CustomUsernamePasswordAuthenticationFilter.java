@@ -42,7 +42,9 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
             String password = obtainPassword(request);
             authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         }
+
         this.setDetails(request, authenticationToken);
+
         return this.getAuthenticationManager().authenticate(authenticationToken);
     }
 

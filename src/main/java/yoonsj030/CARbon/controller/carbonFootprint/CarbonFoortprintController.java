@@ -28,7 +28,7 @@ public class CarbonFoortprintController {
 
     @ApiOperation("탄소 배출량 조회")
     @GetMapping
-    public ResponseEntity<BaseResponse<CarbonFootprintResponseVO>> getCarbonFootprint(@RequestParam Long userId,
+    public ResponseEntity<BaseResponse<List<CarbonFootprintResponseVO>>> getCarbonFootprint(@RequestParam Long userId,
                                                                                   @RequestParam int year,
                                                                                   Principal principal) {
         if(principal == null){
@@ -50,13 +50,13 @@ public class CarbonFoortprintController {
         }
 
         try {
-            CarbonFootprintResponseVO carbonFootprintResponseVO = carbonFootprintService
+            List<CarbonFootprintResponseVO> carbonFootprintResponseVOList = carbonFootprintService
                     .getCarbonFootprint(userId, year);
 
             BaseResponse baseResponse = BaseResponse.builder()
                     .httpStatus(HttpStatus.OK)
                     .message("탄소 배출량 조회 성공!")
-                    .data(carbonFootprintResponseVO)
+                    .data(carbonFootprintResponseVOList)
                     .build();
 
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);

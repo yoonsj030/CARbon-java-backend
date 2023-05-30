@@ -7,14 +7,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import yoonsj030.CARbon.security.CustomUsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,9 +30,12 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();          // CSFR 공격에 대한 방어 해제
 
         httpSecurity
+                .cors(configuration -> configuration.configurationSource(corsConfigurationSource()));
+
+
+        httpSecurity
                 .authorizeRequests()          // 요청에 대한 접근 제어
                 .antMatchers("/api/**").authenticated()          // 인증된 사용자만 접근 가능
-                .antMatchers("/", "**").permitAll()
                 .anyRequest().permitAll();          // 나머지 모든 요청에 대해서는 접근 허용
 
         /**
@@ -62,12 +68,12 @@ public class SecurityConfig {
     protected CustomUsernamePasswordAuthenticationFilter getAuthenticationFilter() {
         CustomUsernamePasswordAuthenticationFilter authFilter = new CustomUsernamePasswordAuthenticationFilter();
 
-        try{
+        try {
             authFilter.setFilterProcessesUrl("/loginProc");
             authFilter.setUsernameParameter("username");
-            authFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
             authFilter.setPasswordParameter("password");
-        } catch (Exception e){
+            authFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -88,7 +94,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        //configuration.addAllowedOrigin("http://54.180.119.61:3000");
+    //    configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");

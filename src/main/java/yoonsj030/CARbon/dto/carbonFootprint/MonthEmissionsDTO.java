@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,5 +15,9 @@ import java.util.List;
 public class MonthEmissionsDTO {
     private Integer month;
 
-    private List<DayEmissionsDTO> dayList;
+    private List<DayEmissionsDTO> dayList = new ArrayList<>();
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
 }

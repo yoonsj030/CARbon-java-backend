@@ -279,7 +279,7 @@ public class ChannelServiceImpl implements ChannelService {
         }
 
         Post post = channel.getPost();
-        double emissions = (carpoolMeasureRequestVO.getDistance() * 0.21) / channel.getCurPersonnel();
+        double emissions = (carpoolMeasureRequestVO.getDistance() * 0.21) / channel.getCurPersonnel();   // 탄소배출량 계산
 
         CreateCarbonFootprintDTO createCarbonFootprintDTO = CreateCarbonFootprintDTO.builder()
                 .user(user)
