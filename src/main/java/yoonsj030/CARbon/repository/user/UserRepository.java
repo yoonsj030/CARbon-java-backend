@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import yoonsj030.CARbon.entity.user.User;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByRealId(String realId);
@@ -15,4 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByRealId(String realId);
 
     User findByNickname(String hostNickname);
+
+    List<User> findByLevel(Integer level);
 }

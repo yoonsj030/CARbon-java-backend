@@ -153,8 +153,6 @@ public class ChannelServiceImpl implements ChannelService {
                     .channelId(channel.getChannelId())
                     .hostId(host.getUserId())
                     .hostNickname(host.getNickname())
-                    .driverId(driver.getUserId())
-                    .driverNickname(driver.getNickname())
                     .departures(userHasChannel.getDepartures())
                     .departuresLatitude(userHasChannel.getDeparturesLatitude())
                     .departuresLongitude(userHasChannel.getDeparturesLongitude())
@@ -167,6 +165,10 @@ public class ChannelServiceImpl implements ChannelService {
                     .regular(channel.getPost().getRegular())
                     .userHasChannelList(participateUserDTOList)
                     .build();
+
+            if(driver != null) {
+                channelResponseVO.setDriver(driver.getUserId(), driver.getNickname());
+            }
 
             channelResponseVOList.add(channelResponseVO);
         }

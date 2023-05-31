@@ -3,6 +3,7 @@ package yoonsj030.CARbon.service.carbonFootprint;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yoonsj030.CARbon.dto.carbonFootprint.AnalysisDTO;
 import yoonsj030.CARbon.dto.carbonFootprint.CreateCarbonFootprintDTO;
 import yoonsj030.CARbon.dto.carbonFootprint.DayEmissionsDTO;
 import yoonsj030.CARbon.dto.carbonFootprint.MonthEmissionsDTO;
@@ -95,5 +96,27 @@ public class CarbonFootprintServiceImpl implements CarbonFootprintService {
         }
 
         return new ArrayList<>(carbonFootprintMap.values());
+    }
+
+    @Override
+    public AnalysisDTO analysisCarbonFootprint(Long userId) {
+        User user = userRepository
+                .findById(userId).orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+
+        List<User> userList = userRepository.findByLevel(user.getLevel());
+        double standardCo2 = 0;
+
+        for (User target : userList) {
+            standardCo2 = standardCo2 +  target.getTotalCo2();
+        }
+        standardCo2 = standardCo2 / userList.size();
+
+        AnalysisDTO analysisDTO = AnalysisDTO.builder()
+                .level(user.getLevel())
+                .totalCo2(user.getTotalCo2())
+                .levelStandardCo2(standardCo2)
+                .build();
+
+        return analysisDTO;
     }
 }

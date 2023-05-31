@@ -44,4 +44,9 @@ public class ChannelResponseVO {
     private Boolean regular;
 
     private List<ParticipateUserDTO> userHasChannelList;
+
+    public void setDriver(Long driverId, String driverNickname) {
+        this.driverId = driverId;
+        this.driverNickname = driverNickname;
+    }
 }
