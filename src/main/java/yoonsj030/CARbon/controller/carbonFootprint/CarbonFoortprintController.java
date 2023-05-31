@@ -1,6 +1,5 @@
 package yoonsj030.CARbon.controller.carbonFootprint;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,12 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import yoonsj030.CARbon.dto.carbonFootprint.AnalysisDTO;
+import yoonsj030.CARbon.vo.carbonFootprint.AnalysisResponseVO;
 import yoonsj030.CARbon.service.carbonFootprint.CarbonFootprintService;
 import yoonsj030.CARbon.service.user.UserService;
 import yoonsj030.CARbon.util.BaseResponse;
 import yoonsj030.CARbon.vo.carbonFootprint.CarbonFootprintResponseVO;
-import yoonsj030.CARbon.vo.channel.ChannelResponseVO;
 
 import java.security.Principal;
 import java.util.List;
@@ -74,7 +72,7 @@ public class CarbonFoortprintController {
 
     @ApiOperation("탄소 배출량 분석 조회")
     @GetMapping("/analysis")
-    public ResponseEntity<BaseResponse<AnalysisDTO>> analysisCarbonFootprint(@RequestParam Long userId, Principal principal) {
+    public ResponseEntity<BaseResponse<AnalysisResponseVO>> analysisCarbonFootprint(@RequestParam Long userId, Principal principal) {
         if(principal == null){
             BaseResponse baseResponse = BaseResponse.builder()
                     .httpStatus(HttpStatus.FORBIDDEN)
@@ -94,12 +92,12 @@ public class CarbonFoortprintController {
         }
 
         try {
-            AnalysisDTO analysisDTO = carbonFootprintService.analysisCarbonFootprint(userId);
+            AnalysisResponseVO analysisResponseVO = carbonFootprintService.analysisCarbonFootprint(userId);
 
             BaseResponse baseResponse = BaseResponse.builder()
                     .httpStatus(HttpStatus.OK)
                     .message("탄소 배출량 분석 조회 성공!")
-                    .data(analysisDTO)
+                    .data(analysisResponseVO)
                     .build();
 
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);

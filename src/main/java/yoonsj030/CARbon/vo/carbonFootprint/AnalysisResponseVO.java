@@ -1,4 +1,4 @@
-package yoonsj030.CARbon.dto.carbonFootprint;
+package yoonsj030.CARbon.vo.carbonFootprint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
-public class AnalysisDTO {
+public class AnalysisResponseVO {
     private Integer level;
 
     private Double totalCo2;

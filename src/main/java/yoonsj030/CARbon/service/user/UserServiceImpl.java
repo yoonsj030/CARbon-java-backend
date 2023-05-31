@@ -15,6 +15,7 @@ import yoonsj030.CARbon.dto.user.UpdateUserDTO;
 import yoonsj030.CARbon.entity.user.User;
 import yoonsj030.CARbon.repository.user.UserRepository;
 import yoonsj030.CARbon.util.UserRole;
+import yoonsj030.CARbon.vo.user.LoginResponseVO;
 import yoonsj030.CARbon.vo.user.TargetProfileResponseVO;
 import yoonsj030.CARbon.vo.user.UserProfileResponseVO;
 
@@ -104,14 +105,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long login(String realId) {
+    public LoginResponseVO login(String realId) {
         User user = userRepository.findByRealId(realId);
 
         if(user == null) {
             throw new RuntimeException("존재하지 않는 사용자입니다.");
         }
 
-        return user.getUserId();
+        LoginResponseVO loginResponseVO = LoginResponseVO.builder()
+                .userId(user.getUserId())
+                .nickname(user.getNickname())
+                .build();
+
+        return loginResponseVO;
     }
 
     @Override

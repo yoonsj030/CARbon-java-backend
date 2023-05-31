@@ -3,6 +3,7 @@ package yoonsj030.CARbon.service.user;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import yoonsj030.CARbon.dto.user.JoinUserDTO;
 import yoonsj030.CARbon.dto.user.UpdateUserDTO;
+import yoonsj030.CARbon.vo.user.LoginResponseVO;
 import yoonsj030.CARbon.vo.user.TargetProfileResponseVO;
 import yoonsj030.CARbon.vo.user.UserProfileResponseVO;
 
@@ -15,7 +16,7 @@ public interface UserService extends UserDetailsService {
 
     void joinUser(JoinUserDTO joinUserDTO);
 
-    Long login(String realId);
+    LoginResponseVO login(String realId);
 
     int existsByUpdateUserDTO(UpdateUserDTO updateUserDTO);
 

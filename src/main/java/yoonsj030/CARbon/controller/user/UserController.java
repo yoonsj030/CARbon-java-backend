@@ -10,6 +10,7 @@ import yoonsj030.CARbon.dto.user.JoinUserDTO;
 import yoonsj030.CARbon.dto.user.UpdateUserDTO;
 import yoonsj030.CARbon.service.user.UserService;
 import yoonsj030.CARbon.util.BaseResponse;
+import yoonsj030.CARbon.vo.user.LoginResponseVO;
 import yoonsj030.CARbon.vo.user.TargetProfileResponseVO;
 import yoonsj030.CARbon.vo.user.UserRequestVO;
 import yoonsj030.CARbon.vo.user.UserProfileResponseVO;
@@ -89,18 +90,17 @@ public class UserController {
 
     @ApiOperation("로그인")
     @GetMapping("/")
-    public ResponseEntity<Long> login(HttpServletRequest request, HttpServletResponse response,
-                                                    Principal principal) {
+    public ResponseEntity<LoginResponseVO> login(HttpServletRequest request, HttpServletResponse response,
+                                                 Principal principal) {
         try {
-            Long userId = userService.login(principal.getName());
-
+            LoginResponseVO loginResponseVO = userService.login(principal.getName());
 //            BaseResponse baseResponse = BaseResponse.builder()
 //                    .httpStatus(HttpStatus.OK)
 //                    .message("로그인 성공!")
 //                    .data(userId)
 //                    .build();
 
-            return new ResponseEntity<>(userId, HttpStatus.OK);
+            return new ResponseEntity<>(loginResponseVO, HttpStatus.OK);
         } catch (Exception e) {
 //            BaseResponse baseResponse = BaseResponse.builder()
 //                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)

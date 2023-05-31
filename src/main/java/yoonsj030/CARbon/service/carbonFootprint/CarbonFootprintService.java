@@ -1,6 +1,6 @@
 package yoonsj030.CARbon.service.carbonFootprint;
 
-import yoonsj030.CARbon.dto.carbonFootprint.AnalysisDTO;
+import yoonsj030.CARbon.vo.carbonFootprint.AnalysisResponseVO;
 import yoonsj030.CARbon.dto.carbonFootprint.CreateCarbonFootprintDTO;
 import yoonsj030.CARbon.vo.carbonFootprint.CarbonFootprintResponseVO;
 
@@ -11,5 +11,5 @@ public interface CarbonFootprintService {
 
     List<CarbonFootprintResponseVO> getCarbonFootprint(Long userId, int year);
 
-    AnalysisDTO analysisCarbonFootprint(Long userId);
+    AnalysisResponseVO analysisCarbonFootprint(Long userId);
 }
