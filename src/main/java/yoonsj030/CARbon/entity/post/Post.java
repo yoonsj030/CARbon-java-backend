@@ -53,7 +53,7 @@ public class Post {
     private Boolean regular;
 
     @Column(name = "carpool_date", nullable = false)
-    private Date carpoolDate;
+    private String carpoolDate;
 
     @Column(name = "driver_id")
     private Long driverId;
@@ -108,7 +108,7 @@ public class Post {
         this.regular = regular;
     }
 
-    public void updateCarpoolDate(Date carpoolDate) {
+    public void updateCarpoolDate(String carpoolDate) {
         this.carpoolDate = carpoolDate;
     }
 }

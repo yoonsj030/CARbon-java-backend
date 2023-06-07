@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
                 .driving(joinUserDTO.getDriving())
                 .rating(0.0)
                 .ratingCnt(0)
-                .point(0)
+                .point(3000)
                 .carpoolCount(0)
                 .level(1)
                 .totalCo2(0.0)

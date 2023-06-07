@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -26,7 +24,7 @@ public class UserRequestVO {
 
     private String cellphone;
 
-    private Date birthdayDate;
+    private String birthdayDate;
 
     private Boolean ownCar;
 

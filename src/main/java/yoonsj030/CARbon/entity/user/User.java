@@ -45,7 +45,7 @@ public class User {
     private String cellphone;
 
     @Column(name = "birthday_date", nullable = false)
-    private Date birthdayDate;
+    private String birthdayDate;
 
     @Column(name = "own_car", nullable = false)
     private Boolean ownCar;
@@ -137,7 +137,7 @@ public class User {
     }
 
     public void setPoint(double distance) {
-        this.point = point + ((int)distance * 10);
+        this.point = point + (int)distance;
     }
 
     public void setTotalCo2(double totalCo2) {

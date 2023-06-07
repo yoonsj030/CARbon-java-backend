@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -36,7 +34,7 @@ public class PostResponseVO {
 
     private Boolean regular;
 
-    private Date carpoolDate;
+    private String carpoolDate;
 
     private String driverNickname;
 

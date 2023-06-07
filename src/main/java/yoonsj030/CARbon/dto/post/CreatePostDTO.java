@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -32,7 +30,7 @@ public class CreatePostDTO {
 
     private Boolean regular;
 
-    private Date carpoolDate;
+    private String carpoolDate;
 
     private Long driverId;
 
