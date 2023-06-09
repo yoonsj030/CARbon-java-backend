@@ -24,6 +24,7 @@ import yoonsj030.CARbon.vo.post.PostResponseVO;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -265,6 +266,8 @@ public class PostServiceImpl implements PostService {
 
             postResponseVOList.add(postResponseVO);
         }
+
+        Collections.reverse(postResponseVOList);
 
         return postResponseVOList;
     }
