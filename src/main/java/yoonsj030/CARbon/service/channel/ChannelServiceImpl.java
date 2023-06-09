@@ -362,4 +362,9 @@ public class ChannelServiceImpl implements ChannelService {
             }
         }
     }
+
+    @Override
+    public int getChannelCount() {
+        return channelRepository.findAll().size();
+    }
 }

@@ -280,4 +280,36 @@ public class ChannelController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @ApiOperation("카풀 채널 총 개수")
+    @GetMapping("/count")
+    public ResponseEntity<BaseResponse<Integer>> getChannelCount(Principal principal) {
+        if(principal == null){
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.FORBIDDEN)
+                    .message("인가되지 않은 사용자입니다.")
+                    .build();
+
+            return new ResponseEntity(baseResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            int channelCount = channelService.getChannelCount();
+
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message("카풀 전체 개수 조회 성공!")
+                    .data(channelCount)
+                    .build();
+
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .message("서버 오류: " + e.getMessage())
+                    .build();
+
+            return new ResponseEntity<>(baseResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

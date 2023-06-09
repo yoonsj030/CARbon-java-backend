@@ -23,4 +23,6 @@ public interface ChannelService {
     HttpStatus startCarpool(Long carpoolId, Long userId);
 
     void measureCarpool(CarpoolMeasureRequestVO carpoolMeasureRequestVO);
+
+    int getChannelCount();
 }
