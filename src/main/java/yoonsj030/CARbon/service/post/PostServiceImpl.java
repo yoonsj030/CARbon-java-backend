@@ -207,15 +207,43 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("검색어가 없습니다.");
         }
 
-        List<Post> posts = postRepository.findByTitleContaining(keyword);
+        List<Post> postsByDepartures = postRepository.findByDeparturesContaining(keyword);
+        List<Post> postsByArrivals = postRepository.findByArrivalsContaining(keyword);
 
-        if(posts == null || posts.isEmpty()) {
+        if(postsByDepartures == null || postsByDepartures.isEmpty()) {
             throw new RuntimeException("'" + keyword + "'가 포함된 Post가 없습니다.");
         }
 
         List<PostResponseVO> postResponseVOList = new ArrayList<>();
 
-        for(Post post : posts) {
+        for(Post post : postsByDepartures) {
+            PostResponseVO postResponseVO = PostResponseVO.builder()
+                    .postId(post.getPostId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .departures(post.getDepartures())
+                    .departuresLatitude(post.getDeparturesLatitude())
+                    .departuresLongitude(post.getDeparturesLongitude())
+                    .arrivals(post.getArrivals())
+                    .arrivalsLatitude(post.getArrivalsLatitude())
+                    .arrivalsLongitude(post.getArrivalsLongitude())
+                    .personnel(post.getPersonnel())
+                    .regular(post.getRegular())
+                    .curPersonnel(post.getChannel().getCurPersonnel())
+                    .carpoolDate(post.getCarpoolDate())
+                    .driverNickname(post.getChannel().getDriverNickname())
+                    .hostNickname(post.getChannel().getHostNickname())
+                    .channelId(post.getChannel().getChannelId())
+                    .build();
+
+            postResponseVOList.add(postResponseVO);
+        }
+
+        for(Post post : postsByArrivals) {
+            if(postResponseVOList.contains(post)) {
+                continue;
+            }
+
             PostResponseVO postResponseVO = PostResponseVO.builder()
                     .postId(post.getPostId())
                     .title(post.getTitle())
