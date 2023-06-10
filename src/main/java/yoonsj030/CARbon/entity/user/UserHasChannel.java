@@ -84,4 +84,28 @@ public class UserHasChannel {
 
         this.coordinateList.add(coordinate);
     }
+
+    public void updateDepartures(String departures) {
+        this.departures = departures;
+    }
+
+    public void updateDeparturesLatitude(Double departuresLatitude) {
+        this.departuresLatitude = departuresLatitude;
+    }
+
+    public void updateDeparturesLongitude(Double departuresLongitude) {
+        this.departuresLongitude = departuresLongitude;
+    }
+
+    public void updateArrivals(String arrivals) {
+        this.arrivals = arrivals;
+    }
+
+    public void updateArrivalsLatitude(Double arrivalsLatitude) {
+        this.arrivalsLatitude = arrivalsLatitude;
+    }
+
+    public void updateArrivalsLongitude(Double arrivalsLongitude) {
+        this.arrivalsLongitude = arrivalsLongitude;
+    }
 }

@@ -2,6 +2,7 @@ package yoonsj030.CARbon.service.channel;
 
 import org.springframework.http.HttpStatus;
 import yoonsj030.CARbon.dto.channel.JoinCarpoolDTO;
+import yoonsj030.CARbon.dto.channel.UpdateChannelDTO;
 import yoonsj030.CARbon.dto.user.ParticipateUserDTO;
 import yoonsj030.CARbon.vo.channel.CarpoolMeasureRequestVO;
 import yoonsj030.CARbon.vo.channel.CarpoolRequestVO;
@@ -25,4 +26,6 @@ public interface ChannelService {
     void measureCarpool(CarpoolMeasureRequestVO carpoolMeasureRequestVO);
 
     int getChannelCount();
+
+    ChannelResponseVO updateChannel(UpdateChannelDTO updateChannelDTO);
 }

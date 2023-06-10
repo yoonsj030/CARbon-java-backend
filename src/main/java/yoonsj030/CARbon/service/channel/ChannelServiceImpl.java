@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import yoonsj030.CARbon.dto.carbonFootprint.CreateCarbonFootprintDTO;
 import yoonsj030.CARbon.dto.channel.AttendeeInfoDTO;
 import yoonsj030.CARbon.dto.channel.JoinCarpoolDTO;
+import yoonsj030.CARbon.dto.channel.UpdateChannelDTO;
 import yoonsj030.CARbon.dto.user.ParticipateUserDTO;
 import yoonsj030.CARbon.entity.channel.Channel;
 import yoonsj030.CARbon.entity.coordinate.Coordinate;
@@ -26,6 +27,7 @@ import yoonsj030.CARbon.vo.channel.CarpoolRequestVO;
 import yoonsj030.CARbon.vo.channel.ChannelResponseVO;
 import yoonsj030.CARbon.vo.channel.ParticipantsRating;
 import yoonsj030.CARbon.vo.coordinate.AllPoints;
+import yoonsj030.CARbon.vo.post.PostResponseVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -366,5 +368,90 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public int getChannelCount() {
         return channelRepository.findAll().size();
+    }
+
+    @Override
+    public ChannelResponseVO updateChannel(UpdateChannelDTO updateChannelDTO) {
+        Channel channel = channelRepository
+                .findById(updateChannelDTO.getChannelId())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 Channel입니다."));
+
+        User user = userRepository
+                .findById(updateChannelDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 User입니다."));
+
+        UserHasChannel userHasChannel = userHasChannelRepository.findByChannelAndUser(channel, user);
+
+        if(updateChannelDTO.getDepartures() != null) {
+            userHasChannel.updateDepartures(updateChannelDTO.getDepartures());
+        }
+
+        if(updateChannelDTO.getDeparturesLatitude() != null) {
+            userHasChannel.updateDeparturesLatitude(updateChannelDTO.getDeparturesLatitude());
+        }
+
+        if(updateChannelDTO.getDeparturesLongitude() != null) {
+            userHasChannel.updateDeparturesLongitude(updateChannelDTO.getDeparturesLongitude());
+        }
+
+        if(updateChannelDTO.getArrivals() != null) {
+            userHasChannel.updateArrivals(updateChannelDTO.getArrivals());
+        }
+
+        if(updateChannelDTO.getArrivalsLatitude() != null) {
+            userHasChannel.updateArrivalsLatitude(updateChannelDTO.getArrivalsLatitude());
+        }
+
+        if(updateChannelDTO.getArrivalsLongitude() != null) {
+            userHasChannel.updateArrivalsLongitude(updateChannelDTO.getArrivalsLongitude());
+        }
+
+        try {
+            userHasChannelRepository.save(userHasChannel);
+        } catch (DataAccessException e) {
+            log.error("User Has Channel 수정 중 오류 발생: " + e.getMessage());
+            throw new ServiceException("User Has Channel 수정 중 오류 발생");
+        }
+
+        List<UserHasChannel> participantsList = channel.getUserList();              // 카풀에 참여 중인 모든 유저
+
+        List<ParticipateUserDTO> participateUserDTOList = new ArrayList<>();
+
+        for(UserHasChannel participantHasChannel : participantsList) {
+            User participant = participantHasChannel.getUser();             // 참여 중인 유저 1명
+
+            ParticipateUserDTO participateUserDTO = ParticipateUserDTO.builder()
+                    .userId(participant.getUserId())
+                    .nickname(participant.getNickname())
+                    .departures(participantHasChannel.getDepartures())
+                    .departuresLatitude(participantHasChannel.getDeparturesLatitude())
+                    .departuresLongitude(participantHasChannel.getDeparturesLongitude())
+                    .arrivals(participantHasChannel.getArrivals())
+                    .arrivalsLatitude(participantHasChannel.getArrivalsLatitude())
+                    .arrivalsLongitude(participantHasChannel.getArrivalsLongitude())
+                    .rating(participant.getRating())
+                    .build();
+
+            participateUserDTOList.add(participateUserDTO);
+        }
+
+        ChannelResponseVO channelResponseVO = ChannelResponseVO.builder()
+                .channelId(channel.getChannelId())
+                .hostId(channel.getPost().getUser().getUserId())
+                .hostNickname(channel.getHostNickname())
+                .departures(userHasChannel.getDepartures())
+                .departuresLatitude(userHasChannel.getDeparturesLatitude())
+                .departuresLongitude(userHasChannel.getDeparturesLongitude())
+                .arrivals(userHasChannel.getArrivals())
+                .arrivalsLatitude(userHasChannel.getArrivalsLatitude())
+                .arrivalsLongitude(userHasChannel.getArrivalsLongitude())
+                .personnel(channel.getPost().getPersonnel())
+                .curPersonnel(channel.getCurPersonnel())
+                .content(channel.getPost().getContent())
+                .regular(channel.getPost().getRegular())
+                .userHasChannelList(participateUserDTOList)
+                .build();
+
+        return channelResponseVO;
     }
 }

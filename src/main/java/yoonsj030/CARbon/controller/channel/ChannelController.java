@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import yoonsj030.CARbon.dto.channel.JoinCarpoolDTO;
+import yoonsj030.CARbon.dto.channel.UpdateChannelDTO;
+import yoonsj030.CARbon.dto.post.UpdatePostDTO;
 import yoonsj030.CARbon.dto.user.ParticipateUserDTO;
 import yoonsj030.CARbon.service.carbonFootprint.CarbonFootprintService;
 import yoonsj030.CARbon.service.channel.ChannelService;
@@ -17,6 +19,8 @@ import yoonsj030.CARbon.vo.channel.CarpoolMeasureRequestVO;
 import yoonsj030.CARbon.vo.channel.CarpoolRequestVO;
 import yoonsj030.CARbon.vo.channel.ChannelRequestVO;
 import yoonsj030.CARbon.vo.channel.ChannelResponseVO;
+import yoonsj030.CARbon.vo.post.PostRequestVO;
+import yoonsj030.CARbon.vo.post.PostResponseVO;
 
 import java.security.Principal;
 import java.util.List;
@@ -300,6 +304,59 @@ public class ChannelController {
                     .httpStatus(HttpStatus.OK)
                     .message("카풀 전체 개수 조회 성공!")
                     .data(channelCount)
+                    .build();
+
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .message("서버 오류: " + e.getMessage())
+                    .build();
+
+            return new ResponseEntity<>(baseResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @ApiOperation("카풀 참여자 내용 수정")
+    @PatchMapping
+    public ResponseEntity<BaseResponse<PostResponseVO>> updatePost (@RequestBody ChannelRequestVO channelRequestVO,
+                                                                    Principal principal) {
+        if(principal == null){
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.FORBIDDEN)
+                    .message("인가되지 않은 사용자입니다.")
+                    .build();
+
+            return new ResponseEntity(baseResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        if(!userService.authorizationUser(principal, channelRequestVO.getUserId())) {
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.FORBIDDEN)
+                    .message("잘못된 접근입니다.")
+                    .build();
+
+            return new ResponseEntity(baseResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        UpdateChannelDTO updateChannelDTO = UpdateChannelDTO.builder()
+                .channelId(channelRequestVO.getChannelId())
+                .userId(channelRequestVO.getUserId())
+                .departures(channelRequestVO.getDepartures())
+                .departuresLatitude(channelRequestVO.getDeparturesLatitude())
+                .departuresLongitude(channelRequestVO.getDeparturesLongitude())
+                .arrivals(channelRequestVO.getArrivals())
+                .arrivalsLatitude(channelRequestVO.getArrivalsLatitude())
+                .arrivalsLongitude(channelRequestVO.getArrivalsLongitude())
+                .build();
+
+        try {
+            ChannelResponseVO channelResponseVO = channelService.updateChannel(updateChannelDTO);
+
+            BaseResponse baseResponse = BaseResponse.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .message("카풀 참여자 수정 성공!")
+                    .data(channelResponseVO)
                     .build();
 
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);
