@@ -40,5 +40,7 @@ public class PostResponseVO {
 
     private String hostNickname;
 
+    private Long hostId;
+
     private Long channelId;
 }

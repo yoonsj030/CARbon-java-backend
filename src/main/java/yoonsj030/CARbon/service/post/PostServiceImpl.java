@@ -130,6 +130,7 @@ public class PostServiceImpl implements PostService {
                 .carpoolDate(post.getCarpoolDate())
                 .driverNickname(channel.getDriverNickname())
                 .hostNickname(channel.getHostNickname())
+                .hostId(post.getUser().getUserId())
                 .channelId(channel.getChannelId())
                 .build();
 
@@ -165,6 +166,7 @@ public class PostServiceImpl implements PostService {
                     .carpoolDate(post.getCarpoolDate())
                     .driverNickname(post.getChannel().getDriverNickname())
                     .hostNickname(post.getChannel().getHostNickname())
+                    .hostId(post.getUser().getUserId())
                     .channelId(post.getChannel().getChannelId())
                     .build();
 
@@ -198,6 +200,7 @@ public class PostServiceImpl implements PostService {
                 .carpoolDate(post.getCarpoolDate())
                 .driverNickname(post.getChannel().getDriverNickname())
                 .hostNickname(post.getChannel().getHostNickname())
+                .hostId(post.getUser().getUserId())
                 .channelId(post.getChannel().getChannelId())
                 .build();
 
@@ -237,6 +240,7 @@ public class PostServiceImpl implements PostService {
                     .carpoolDate(post.getCarpoolDate())
                     .driverNickname(post.getChannel().getDriverNickname())
                     .hostNickname(post.getChannel().getHostNickname())
+                    .hostId(post.getUser().getUserId())
                     .channelId(post.getChannel().getChannelId())
                     .build();
 
@@ -264,6 +268,7 @@ public class PostServiceImpl implements PostService {
                     .carpoolDate(post.getCarpoolDate())
                     .driverNickname(post.getChannel().getDriverNickname())
                     .hostNickname(post.getChannel().getHostNickname())
+                    .hostId(post.getUser().getUserId())
                     .channelId(post.getChannel().getChannelId())
                     .build();
 
@@ -372,6 +377,7 @@ public class PostServiceImpl implements PostService {
                 .carpoolDate(post.getCarpoolDate())
                 .driverNickname(channel.getDriverNickname())
                 .hostNickname(channel.getHostNickname())
+                .hostId(post.getUser().getUserId())
                 .channelId(channel.getChannelId())
                 .build();
 
