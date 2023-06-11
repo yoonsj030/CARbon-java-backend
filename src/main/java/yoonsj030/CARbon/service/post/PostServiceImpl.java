@@ -213,7 +213,8 @@ public class PostServiceImpl implements PostService {
         List<Post> postsByDepartures = postRepository.findByDeparturesContaining(keyword);
         List<Post> postsByArrivals = postRepository.findByArrivalsContaining(keyword);
 
-        if(postsByDepartures == null || postsByDepartures.isEmpty()) {
+        if((postsByDepartures == null || postsByDepartures.isEmpty()) &&
+                (postsByArrivals == null || postsByArrivals.isEmpty())) {
             throw new RuntimeException("'" + keyword + "'가 포함된 Post가 없습니다.");
         }
 
