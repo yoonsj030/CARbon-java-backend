@@ -140,7 +140,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponseVO> getAllPosts(int pageNumber) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "postId");
+        Sort sort = Sort.by(Sort.Direction.ASC, "postId");
         Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
        // Page<Post> postPage = postRepository.findAll(pageable);
         List<Post> postList = postRepository.findAll(pageable).getContent();
