@@ -26,6 +26,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -141,39 +142,62 @@ public class PostServiceImpl implements PostService {
     public List<PostResponseVO> getAllPosts(int pageNumber) {
         Sort sort = Sort.by(Sort.Direction.DESC, "postId");
         Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
-        Page<Post> postPage = postRepository.findAll(pageable);
+       // Page<Post> postPage = postRepository.findAll(pageable);
+        List<Post> postList = postRepository.findAll(pageable).getContent();
 
-        if(postPage == null || postPage.isEmpty()) {
-            throw new RuntimeException("Post 전체 조회 중 오류 발생");
-        }
+//        if(postPage == null || postPage.isEmpty()) {
+//            throw new RuntimeException("Post 전체 조회 중 오류 발생");
+//        }
+//
+//        List<PostResponseVO> postResponseVOList = new ArrayList<>();
+//
+//        for(Post post : postPage) {
+//            PostResponseVO postResponseVO = PostResponseVO.builder()
+//                    .postId(post.getPostId())
+//                    .title(post.getTitle())
+//                    .content(post.getContent())
+//                    .departures(post.getDepartures())
+//                    .departuresLatitude(post.getDeparturesLatitude())
+//                    .departuresLongitude(post.getDeparturesLongitude())
+//                    .arrivals(post.getArrivals())
+//                    .arrivalsLatitude(post.getArrivalsLatitude())
+//                    .arrivalsLongitude(post.getArrivalsLongitude())
+//                    .personnel(post.getPersonnel())
+//                    .curPersonnel(post.getChannel().getCurPersonnel())
+//                    .regular(post.getRegular())
+//                    .carpoolDate(post.getCarpoolDate())
+//                    .driverNickname(post.getChannel().getDriverNickname())
+//                    .hostNickname(post.getChannel().getHostNickname())
+//                    .hostId(post.getUser().getUserId())
+//                    .channelId(post.getChannel().getChannelId())
+//                    .build();
+//
+//            postResponseVOList.add(postResponseVO);
+//        }
 
-        List<PostResponseVO> postResponseVOList = new ArrayList<>();
+        //return postResponseVOList;
 
-        for(Post post : postPage) {
-            PostResponseVO postResponseVO = PostResponseVO.builder()
-                    .postId(post.getPostId())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .departures(post.getDepartures())
-                    .departuresLatitude(post.getDeparturesLatitude())
-                    .departuresLongitude(post.getDeparturesLongitude())
-                    .arrivals(post.getArrivals())
-                    .arrivalsLatitude(post.getArrivalsLatitude())
-                    .arrivalsLongitude(post.getArrivalsLongitude())
-                    .personnel(post.getPersonnel())
-                    .curPersonnel(post.getChannel().getCurPersonnel())
-                    .regular(post.getRegular())
-                    .carpoolDate(post.getCarpoolDate())
-                    .driverNickname(post.getChannel().getDriverNickname())
-                    .hostNickname(post.getChannel().getHostNickname())
-                    .hostId(post.getUser().getUserId())
-                    .channelId(post.getChannel().getChannelId())
-                    .build();
-
-            postResponseVOList.add(postResponseVO);
-        }
-
-        return postResponseVOList;
+        return postList.stream()
+                .map(post -> PostResponseVO.builder()
+                        .postId(post.getPostId())
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .departures(post.getDepartures())
+                        .departuresLatitude(post.getDeparturesLatitude())
+                        .departuresLongitude(post.getDeparturesLongitude())
+                        .arrivals(post.getArrivals())
+                        .arrivalsLatitude(post.getArrivalsLatitude())
+                        .arrivalsLongitude(post.getArrivalsLongitude())
+                        .personnel(post.getPersonnel())
+                        .curPersonnel(post.getChannel().getCurPersonnel())
+                        .regular(post.getRegular())
+                        .carpoolDate(post.getCarpoolDate())
+                        .driverNickname(post.getChannel().getDriverNickname())
+                        .hostNickname(post.getChannel().getHostNickname())
+                        .hostId(post.getUser().getUserId())
+                        .channelId(post.getChannel().getChannelId())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override
