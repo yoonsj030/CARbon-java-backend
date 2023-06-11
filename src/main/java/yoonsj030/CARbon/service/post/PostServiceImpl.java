@@ -171,6 +171,8 @@ public class PostServiceImpl implements PostService {
             postResponseVOList.add(postResponseVO);
         }
 
+        Collections.reverse(postResponseVOList);
+
         return postResponseVOList;
     }
 
