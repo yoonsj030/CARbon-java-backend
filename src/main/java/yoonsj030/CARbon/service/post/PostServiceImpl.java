@@ -139,8 +139,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponseVO> getAllPosts(int pageNumber) {
-        Pageable pageable = PageRequest.of(Math.toIntExact(pageNumber - 1), 10,
-                Sort.by("postId").ascending());
+        Sort sort = Sort.by(Sort.Direction.DESC, "postId");
+        Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
         Page<Post> postPage = postRepository.findAll(pageable);
 
         if(postPage == null || postPage.isEmpty()) {
@@ -172,8 +172,6 @@ public class PostServiceImpl implements PostService {
 
             postResponseVOList.add(postResponseVO);
         }
-
-        Collections.reverse(postResponseVOList);
 
         return postResponseVOList;
     }
